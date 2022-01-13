@@ -2,50 +2,67 @@ package ping.service.app.util;
 
 import ping.service.app.exception.CustomRuntimeException;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Properties;
+import java.util.stream.Collectors;
 
 public class EndpointUtil {
 
-    private static Map<String, String> theEndpointMap = null;
+    private static List<String> theEndpointList = null;
 
-    private static final String ENDPOINT_BASE_DEVELOPMENT = "http://localhost:8080";
-    private static final String ENDPOINT_BASE_DOCKER = "http://docker-endpoint-base";
-    private static final String ENDPOINT_BASE_PRODUCTION = "https://something.somewhere.com";
-
-    private static final String ENDPOINT_ONE = "/endpoint_one/endpoint/one";
-    private static final String ENDPOINT_TWO = "/endpoint_two/endpoint/two";
-    private static final String ENDPOINT_THREE = "/endpoint_three/endpoint/three";
-
-    private static Map<String, String> setEndpointMap() {
-        Map<String, String> endpointMap = new HashMap<>();
+    private static List<String> setTheEndpointList() {
         String profile = Util.getSystemEnvProperty(Util.PROFILE);
-        String endpointBase;
 
         if (!Util.hasText(profile)) {
             throw new CustomRuntimeException("PROFILE NOT SET AT RUNTIME");
         }
 
-        if ("development".equals(profile)) {
-            endpointBase = ENDPOINT_BASE_DEVELOPMENT;
-        } else if ("docker".equals(profile)) {
-            endpointBase = ENDPOINT_BASE_DOCKER;
-        } else {
-            endpointBase = ENDPOINT_BASE_PRODUCTION;
+        String fileName;
+        switch (profile) {
+            case "development":
+                fileName = "endpoint.development.properties";
+                break;
+            case "docker":
+                fileName = "endpoint.docker.properties";
+                break;
+            case "propduction":
+                fileName = "endpoint.production.properties";
+                break;
+            default:
+                throw new CustomRuntimeException("INCORRECT PROFILE SET AT RUNTIME");
         }
 
-        endpointMap.put("endpointOne", endpointBase.concat(ENDPOINT_ONE));
-        endpointMap.put("endpointTwo", endpointBase.concat(ENDPOINT_TWO));
-        endpointMap.put("endpointThree", endpointBase.concat(ENDPOINT_THREE));
+        List<String> endpointList = new ArrayList<>();
+        try (InputStream input = EndpointUtil.class.getClassLoader().getResourceAsStream(fileName)) {
+            Properties prop = new Properties();
 
-        theEndpointMap = new HashMap<>();
-        theEndpointMap.putAll(endpointMap);
+            if (input == null) {
+                System.out.println("Sorry, unable to find config.properties");
+            } else {
+                prop.load(input);
 
-        return endpointMap;
+                for (int i=1; i<101; i++) {
+                    endpointList.add(prop.getProperty(String.format("ENDPOINT%s", i)));
+                }
+            }
+        } catch (Exception ex) {
+            System.err.printf("Something went wrong: [ %s ]", ex.getMessage());
+        }
+
+        theEndpointList = endpointList.stream()
+                .filter(Util::hasText)
+                .collect(Collectors.toList());
+
+        return endpointList;
     }
 
-    public static Map<String, String> endpointMap() {
-        return Objects.requireNonNullElseGet(theEndpointMap, EndpointUtil::setEndpointMap);
+    public static List<String> endpointList() {
+        return Objects.requireNonNullElseGet(theEndpointList, EndpointUtil::setTheEndpointList);
     }
 }
