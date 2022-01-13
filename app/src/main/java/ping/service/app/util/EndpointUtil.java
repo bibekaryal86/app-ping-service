@@ -44,7 +44,7 @@ public class EndpointUtil {
             } else {
                 prop.load(input);
 
-                for (int i=1; i<101; i++) {
+                for (int i = 1; i < 101; i++) {
                     endpointList.add(prop.getProperty(String.format("ENDPOINT%s", i)));
                 }
             }

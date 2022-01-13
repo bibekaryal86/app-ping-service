@@ -15,7 +15,7 @@ public class App {
     public static void main(String[] args) {
         System.out.println("Begin ping-service initialization...");
 
-        Timer timer  = new Timer("TIMER");
+        Timer timer = new Timer("TIMER");
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
