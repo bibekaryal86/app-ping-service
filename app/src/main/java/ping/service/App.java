@@ -25,7 +25,7 @@ public class App {
             }
         };
 
-        long period = 15L * 60 * 1000;                                      // every 15 minutes
+        long period = 13L * 60 * 1000;                                      // every 13 minutes
         timer.scheduleAtFixedRate(timerTask, new Date(System.currentTimeMillis()+5000), period);
         System.out.println("End ping-service initialization...");
     }
