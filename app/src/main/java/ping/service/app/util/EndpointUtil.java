@@ -10,6 +10,9 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 
 public class EndpointUtil {
+    private EndpointUtil() throws IllegalAccessException {
+        throw new IllegalAccessException("SonarLint java:S1118");
+    }
 
     private static List<String> theEndpointList = null;
 

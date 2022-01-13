@@ -9,7 +9,12 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 
+import static ping.service.app.util.Util.getCurrentTimestamp;
+
 public class ConnectorUtil {
+    private ConnectorUtil() throws IllegalAccessException {
+        throw new IllegalAccessException("SonarLint java:S1118");
+    }
 
     private static HttpClient getHttpClient() {
         return HttpClient.newBuilder()
@@ -35,12 +40,13 @@ public class ConnectorUtil {
 
     public static void sendHttpRequest(String endpoint) {
         try {
-            System.out.printf("HTTP Request Sent::: Endpoint: [ %s ]%n", endpoint);
+            System.out.printf("[%s] HTTP Request Sent::: Endpoint: [ %s ]%n", getCurrentTimestamp(), endpoint);
             HttpResponse<String> httpResponse = sendHttpRequest(getHttpRequestBuilder(endpoint));
-            System.out.printf("HTTP Request Received::: Endpoint: [ %s ], Status: [ %s ], Body: [ %s ]%n",
+            System.out.printf("[%s] HTTP Request Received::: Endpoint: [ %s ], Status: [ %s ], Body: [ %s ]%n",
+                    getCurrentTimestamp(),
                     endpoint,
                     httpResponse.statusCode(),
-                    httpResponse.body() == null ? null : httpResponse.body().length());
+                    httpResponse.body());
         } catch (InterruptedException ex) {
             System.out.printf("Error in HttpClient Send: [ %s ] | [ %s ]%n", endpoint, ex.getMessage());
             Thread.currentThread().interrupt();
