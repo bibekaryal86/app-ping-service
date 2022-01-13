@@ -1,5 +1,3 @@
 # ping-service
 
-* This is a template Repository to create a new Java web server without spring framework
-* Things to update:
-  * `README.md` i.e. this file to add the program's readme
+This is a small utility app which calls services deployed in cloud to prevent them from sleeping/idling.
