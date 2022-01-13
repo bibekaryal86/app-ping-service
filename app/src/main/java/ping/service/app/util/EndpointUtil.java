@@ -1,18 +1,11 @@
-package nospring.service.skeleton.app.util;
+package ping.service.app.util;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import nospring.service.skeleton.app.exception.CustomRuntimeException;
+import ping.service.app.exception.CustomRuntimeException;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static nospring.service.skeleton.app.util.Util.*;
-
-@Slf4j
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class EndpointUtil {
 
     private static Map<String, String> theEndpointMap = null;
@@ -27,10 +20,10 @@ public class EndpointUtil {
 
     private static Map<String, String> setEndpointMap() {
         Map<String, String> endpointMap = new HashMap<>();
-        String profile = getSystemEnvProperty(PROFILE);
+        String profile = Util.getSystemEnvProperty(Util.PROFILE);
         String endpointBase;
 
-        if (!hasText(profile)) {
+        if (!Util.hasText(profile)) {
             throw new CustomRuntimeException("PROFILE NOT SET AT RUNTIME");
         }
 
