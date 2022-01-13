@@ -35,17 +35,17 @@ public class ConnectorUtil {
 
     public static void sendHttpRequest(String endpoint) {
         try {
-            System.out.printf("HTTP Request Sent::: Endpoint: [ %s ]", endpoint);
+            System.out.printf("HTTP Request Sent::: Endpoint: [ %s ]%n", endpoint);
             HttpResponse<String> httpResponse = sendHttpRequest(getHttpRequestBuilder(endpoint));
-            System.out.printf("HTTP Request Received::: Endpoint: [ %s ], Status: [ %s ], Body: [ %s ]",
+            System.out.printf("HTTP Request Received::: Endpoint: [ %s ], Status: [ %s ], Body: [ %s ]%n",
                     endpoint,
                     httpResponse.statusCode(),
                     httpResponse.body() == null ? null : httpResponse.body().length());
         } catch (InterruptedException ex) {
-            System.out.printf("Error in HttpClient Send: [ %s ] | [ %s ]", endpoint, ex.getMessage());
+            System.out.printf("Error in HttpClient Send: [ %s ] | [ %s ]%n", endpoint, ex.getMessage());
             Thread.currentThread().interrupt();
         } catch (Exception ex) {
-            System.out.printf("Error in HttpClient Send: [ %s ] | [ %s ]", endpoint, ex.getMessage());
+            System.out.printf("Error in HttpClient Send: [ %s ] | [ %s ]%n", endpoint, ex.getMessage());
         }
 
         throw new CustomRuntimeException("HTTP ERROR");

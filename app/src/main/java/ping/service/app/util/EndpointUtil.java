@@ -2,12 +2,9 @@ package ping.service.app.util;
 
 import ping.service.app.exception.CustomRuntimeException;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -26,13 +23,13 @@ public class EndpointUtil {
         String fileName;
         switch (profile) {
             case "development":
-                fileName = "endpoint.development.properties";
+                fileName = "endpoints.development.properties";
                 break;
             case "docker":
-                fileName = "endpoint.docker.properties";
+                fileName = "endpoints.docker.properties";
                 break;
-            case "propduction":
-                fileName = "endpoint.production.properties";
+            case "production":
+                fileName = "endpoints.production.properties";
                 break;
             default:
                 throw new CustomRuntimeException("INCORRECT PROFILE SET AT RUNTIME");
@@ -43,7 +40,7 @@ public class EndpointUtil {
             Properties prop = new Properties();
 
             if (input == null) {
-                System.out.println("Sorry, unable to find config.properties");
+                throw new CustomRuntimeException("UNABLE TO FIND INPUT FILE");
             } else {
                 prop.load(input);
 
@@ -52,14 +49,14 @@ public class EndpointUtil {
                 }
             }
         } catch (Exception ex) {
-            System.err.printf("Something went wrong: [ %s ]", ex.getMessage());
+            throw new CustomRuntimeException(ex.getMessage());
         }
 
         theEndpointList = endpointList.stream()
                 .filter(Util::hasText)
                 .collect(Collectors.toList());
 
-        return endpointList;
+        return theEndpointList;
     }
 
     public static List<String> endpointList() {
