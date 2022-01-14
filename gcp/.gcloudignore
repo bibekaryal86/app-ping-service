@@ -1,5 +1,3 @@
 .gcloudignore
-# Ignore Dummy app-credentials
-app-credentials_DUMMY.yaml
 
 # Nothing else to ignore because copy jar file in the folder and deploy just that jar file

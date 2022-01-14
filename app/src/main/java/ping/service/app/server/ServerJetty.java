@@ -1,18 +1,17 @@
-package nospring.service.skeleton.app.server;
+package ping.service.app.server;
 
-import jakarta.servlet.DispatcherType;
-import nospring.service.skeleton.app.filter.ServletFilter;
-import nospring.service.skeleton.app.servlet.AppPing;
-import nospring.service.skeleton.app.servlet.AppReset;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
+import ping.service.app.servlet.AppPing;
 
-import java.util.EnumSet;
-
-import static nospring.service.skeleton.app.util.Util.*;
+import static ping.service.app.util.Util.SERVER_IDLE_TIMEOUT;
+import static ping.service.app.util.Util.SERVER_MAX_THREADS;
+import static ping.service.app.util.Util.SERVER_MIN_THREADS;
+import static ping.service.app.util.Util.SERVER_PORT;
+import static ping.service.app.util.Util.getSystemEnvProperty;
 
 public class ServerJetty {
 
@@ -32,11 +31,7 @@ public class ServerJetty {
 
     private ServletHandler getServletHandler() {
         ServletHandler servletHandler = new ServletHandler();
-        servletHandler.addFilterWithMapping(ServletFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
-
-        servletHandler.addServletWithMapping(AppPing.class, CONTEXT_PATH + "/tests/ping");
-        servletHandler.addServletWithMapping(AppReset.class, CONTEXT_PATH + "/tests/reset");
-
+        servletHandler.addServletWithMapping(AppPing.class, "/*");
         return servletHandler;
     }
 }
