@@ -5,7 +5,6 @@ package ping.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ping.service.app.scheduler.SchedulerQuartz;
 import ping.service.app.server.ServerJetty;
 
 public class App {
@@ -14,7 +13,6 @@ public class App {
     public static void main(String[] args) throws Exception {
         log.info("Begin ping-service initialization...");
         new ServerJetty().start();
-        new SchedulerQuartz().start();
         log.info("End ping-service initialization...");
     }
 }

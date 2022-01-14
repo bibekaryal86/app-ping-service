@@ -19,7 +19,6 @@ repositories {
 dependencies {
     implementation 'org.eclipse.jetty:jetty-server:11.0.7'
     implementation 'org.eclipse.jetty:jetty-servlet:11.0.7'
-    implementation 'org.quartz-scheduler:quartz:2.3.2'
     implementation('org.slf4j:slf4j-api') {
         version {
             strictly '1.7.32'
