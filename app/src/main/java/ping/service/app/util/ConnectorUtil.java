@@ -11,8 +11,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 
-import static ping.service.app.util.Util.getCurrentTimestamp;
-
 public class ConnectorUtil {
     private static final Logger log = LoggerFactory.getLogger(ConnectorUtil.class);
 
