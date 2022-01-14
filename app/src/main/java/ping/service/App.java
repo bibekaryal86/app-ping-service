@@ -3,6 +3,7 @@
  */
 package ping.service;
 
+import ping.service.app.server.ServerJetty;
 import ping.service.app.util.ConnectorUtil;
 import ping.service.app.util.EndpointUtil;
 
@@ -12,8 +13,10 @@ import java.util.TimerTask;
 import java.util.concurrent.CompletableFuture;
 
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         System.out.println("Begin ping-service initialization...");
+
+        new ServerJetty().start();
 
         Timer timer = new Timer("TIMER");
         TimerTask timerTask = new TimerTask() {
@@ -24,9 +27,9 @@ public class App {
                 }
             }
         };
-
         long period = 13L * 60 * 1000;                                      // every 13 minutes
-        timer.scheduleAtFixedRate(timerTask, new Date(System.currentTimeMillis()+5000), period);
+        timer.scheduleAtFixedRate(timerTask, new Date(System.currentTimeMillis()+13000), period);
+
         System.out.println("End ping-service initialization...");
     }
 }

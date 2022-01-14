@@ -9,8 +9,14 @@ public class Util {
     }
 
     // provided at runtime
+    public static final String SERVER_PORT = "PORT";
     public static final String PROFILE = "SPRING_PROFILES_ACTIVE";
     public static final String TIME_ZONE = "TZ";
+
+    // others
+    public static final int SERVER_MAX_THREADS = 100;
+    public static final int SERVER_MIN_THREADS = 20;
+    public static final int SERVER_IDLE_TIMEOUT = 120;
 
     public static String getSystemEnvProperty(String keyName) {
         return (System.getProperty(keyName) != null) ? System.getProperty(keyName) : System.getenv(keyName);
