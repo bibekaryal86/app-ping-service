@@ -1,5 +1,7 @@
 package ping.service.app.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ping.service.app.exception.CustomRuntimeException;
 
 import java.io.IOException;
@@ -12,6 +14,8 @@ import java.time.Duration;
 import static ping.service.app.util.Util.getCurrentTimestamp;
 
 public class ConnectorUtil {
+    private static final Logger log = LoggerFactory.getLogger(ConnectorUtil.class);
+
     private ConnectorUtil() throws IllegalAccessException {
         throw new IllegalAccessException("SonarLint java:S1118");
     }
@@ -40,18 +44,14 @@ public class ConnectorUtil {
 
     public static void sendHttpRequest(String endpoint) {
         try {
-            System.out.printf("[%s] HTTP Request Sent::: Endpoint: [ %s ]%n", getCurrentTimestamp(), endpoint);
+            log.info("HTTP Request Sent::: Endpoint: [ {} ]", endpoint);
             HttpResponse<String> httpResponse = sendHttpRequest(getHttpRequestBuilder(endpoint));
-            System.out.printf("[%s] HTTP Request Received::: Endpoint: [ %s ], Status: [ %s ], Body: [ %s ]%n",
-                    getCurrentTimestamp(),
-                    endpoint,
-                    httpResponse.statusCode(),
-                    httpResponse.body());
+            log.info("HTTP Request Received::: Endpoint: [ {} ], Status: [ {} ]", endpoint, httpResponse.statusCode());
         } catch (InterruptedException ex) {
-            System.out.printf("Error in HttpClient Send: [ %s ] | [ %s ]%n", endpoint, ex.getMessage());
+            log.error("HTTP Request ERROR::: Endpoint: [ {} ] | [ {} ]", endpoint, ex.getMessage());
             Thread.currentThread().interrupt();
         } catch (Exception ex) {
-            System.out.printf("Error in HttpClient Send: [ %s ] | [ %s ]%n", endpoint, ex.getMessage());
+            log.error("HTTP Request ERROR::: Endpoint: [ {} ] | [ {} ]", endpoint, ex.getMessage());
         }
 
         throw new CustomRuntimeException("HTTP ERROR");

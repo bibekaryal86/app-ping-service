@@ -10,7 +10,6 @@ public class Util {
 
     // provided at runtime
     public static final String SERVER_PORT = "PORT";
-    public static final String PROFILE = "SPRING_PROFILES_ACTIVE";
     public static final String TIME_ZONE = "TZ";
 
     // others

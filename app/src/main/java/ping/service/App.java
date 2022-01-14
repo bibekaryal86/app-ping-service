@@ -3,33 +3,18 @@
  */
 package ping.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ping.service.app.scheduler.SchedulerQuartz;
 import ping.service.app.server.ServerJetty;
-import ping.service.app.util.ConnectorUtil;
-import ping.service.app.util.EndpointUtil;
-
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.CompletableFuture;
 
 public class App {
+    private static final Logger log = LoggerFactory.getLogger(App.class);
+
     public static void main(String[] args) throws Exception {
-        System.out.println("Begin ping-service initialization...");
-
+        log.info("Begin ping-service initialization...");
         new ServerJetty().start();
-
-        Timer timer = new Timer("TIMER");
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                for (String endpoint : EndpointUtil.endpointList()) {
-                    CompletableFuture.runAsync(() -> ConnectorUtil.sendHttpRequest(endpoint));
-                }
-            }
-        };
-        long period = 13L * 60 * 1000;                                      // every 13 minutes
-        timer.scheduleAtFixedRate(timerTask, new Date(System.currentTimeMillis()+13000), period);
-
-        System.out.println("End ping-service initialization...");
+        new SchedulerQuartz().start();
+        log.info("End ping-service initialization...");
     }
 }

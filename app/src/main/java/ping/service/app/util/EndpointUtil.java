@@ -17,29 +17,8 @@ public class EndpointUtil {
     private static List<String> theEndpointList = null;
 
     private static List<String> setTheEndpointList() {
-        String profile = Util.getSystemEnvProperty(Util.PROFILE);
-
-        if (!Util.hasText(profile)) {
-            throw new CustomRuntimeException("PROFILE NOT SET AT RUNTIME");
-        }
-
-        String fileName;
-        switch (profile) {
-            case "development":
-                fileName = "endpoints.development.properties";
-                break;
-            case "docker":
-                fileName = "endpoints.docker.properties";
-                break;
-            case "production":
-                fileName = "endpoints.production.properties";
-                break;
-            default:
-                throw new CustomRuntimeException("INCORRECT PROFILE SET AT RUNTIME");
-        }
-
         List<String> endpointList = new ArrayList<>();
-        try (InputStream input = EndpointUtil.class.getClassLoader().getResourceAsStream(fileName)) {
+        try (InputStream input = EndpointUtil.class.getClassLoader().getResourceAsStream("endpoints.properties")) {
             Properties prop = new Properties();
 
             if (input == null) {
