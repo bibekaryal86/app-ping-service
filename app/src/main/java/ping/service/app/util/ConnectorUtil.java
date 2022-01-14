@@ -50,10 +50,10 @@ public class ConnectorUtil {
         } catch (InterruptedException ex) {
             log.error("HTTP Request ERROR::: Endpoint: [ {} ] | [ {} ]", endpoint, ex.getMessage());
             Thread.currentThread().interrupt();
+            throw new CustomRuntimeException("HTTP INTERRUPTED ERROR");
         } catch (Exception ex) {
             log.error("HTTP Request ERROR::: Endpoint: [ {} ] | [ {} ]", endpoint, ex.getMessage());
+            throw new CustomRuntimeException("HTTP EXCEPTION ERROR");
         }
-
-        throw new CustomRuntimeException("HTTP ERROR");
     }
 }

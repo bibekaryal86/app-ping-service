@@ -1,4 +1,4 @@
 cron:
   - description: "ping"
     url: /tests/ping
-    schedule: every 9 mins
+    schedule: every 10 mins
